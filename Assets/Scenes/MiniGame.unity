@@ -1758,10 +1758,10 @@ GameObject:
   - component: {fileID: 1989158176}
   - component: {fileID: 1989158175}
   - component: {fileID: 1989158174}
-  - component: {fileID: 1989158173}
   - component: {fileID: 1989158178}
+  - component: {fileID: 1989158173}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1781,8 +1781,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPressed:
     m_InternalValue: 0
-  plateRenderer: {fileID: 0}
-  defaultColor: {r: 1, g: 0, b: 0, a: 1}
+  plateRenderer: {fileID: 1989158175}
+  defaultColor: {r: 0.77647066, g: 0.41960788, b: 0.2509804, a: 1}
   pressedColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!65 &1989158174
 BoxCollider:
@@ -1825,7 +1825,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 136e0f85aa9127042ab54f6aff2a4a8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1864,8 +1864,8 @@ Transform:
   m_GameObject: {fileID: 1989158172}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7408049, y: 0.92, z: 2.5537052}
-  m_LocalScale: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 1.7408049, y: 0.515, z: 2.5537052}
+  m_LocalScale: {x: 3.363538, y: 0.0033635383, z: 3.363538}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
