@@ -10,7 +10,7 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField] private float speed = 0;
 
-    private void Update()
+    private void FixedUpdate()
     {
         //Player movement
         if (!IsOwner) return;
