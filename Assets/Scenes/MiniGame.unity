@@ -1137,11 +1137,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c072359b6b093249bd178acbaadce4a, type: 3}
---- !u!1 &273470703 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3204396214331515057, guid: 8c072359b6b093249bd178acbaadce4a, type: 3}
-  m_PrefabInstance: {fileID: 249421629}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &392824244
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,7 +2744,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1523110631}
-    PlayerPrefab: {fileID: 273470703}
+    PlayerPrefab: {fileID: 3204396214331515057, guid: 8c072359b6b093249bd178acbaadce4a, type: 3}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 8d44c8bebbe9d10439586fc3ba05bb99, type: 2}
