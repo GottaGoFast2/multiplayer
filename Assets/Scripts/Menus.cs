@@ -103,7 +103,7 @@ public class Menus : MonoBehaviour
 
     private void SendTicker()
     {
-        LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
+        LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id); //Create ticker so that the player can join after a long time.
     }
 
 }
