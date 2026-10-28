@@ -678,6 +678,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 215009806}
   m_CullTransparentMesh: 1
+<<<<<<< HEAD
 --- !u!1 &219712751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,6 +1143,8 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3204396214331515057, guid: 8c072359b6b093249bd178acbaadce4a, type: 3}
   m_PrefabInstance: {fileID: 249421629}
   m_PrefabAsset: {fileID: 0}
+=======
+>>>>>>> 27040f617e6469c01f49a237fe9c0e729694f948
 --- !u!1 &392824244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4434,6 +4437,7 @@ SceneRoots:
   - {fileID: 475218158}
   - {fileID: 392824248}
   - {fileID: 673752664}
+<<<<<<< HEAD
   - {fileID: 249421629}
   - {fileID: 893537010}
   - {fileID: 219712755}
@@ -4441,3 +4445,12 @@ SceneRoots:
   - {fileID: 439179067}
   - {fileID: 1523110633}
   - {fileID: 2064697513}
+=======
+  - {fileID: 1989158177}
+  - {fileID: 527583890}
+  - {fileID: 1503520475}
+  - {fileID: 28336540}
+  - {fileID: 1811336364}
+  - {fileID: 2007848537}
+  - {fileID: 1835974221}
+>>>>>>> 27040f617e6469c01f49a237fe9c0e729694f948

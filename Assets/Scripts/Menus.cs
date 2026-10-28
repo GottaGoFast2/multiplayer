@@ -18,8 +18,7 @@ public class Menus : MonoBehaviour
     [SerializeField] private Button joinGameBtn;
     [SerializeField] private TextMeshProUGUI joinCodeText;
 
-    private Lobby hostLobby;       // the lobby the host made (empty until then)
-    private float heartbeatTimer;  // counts down to the next "I'm still here" message
+    private Lobby hostLobby;       //the lobby the host made
 
     private void Awake()
     {
@@ -43,102 +42,68 @@ public class Menus : MonoBehaviour
         SetButtons(true); //Turns it back on after ID is received.
     }
 
-    // Helper so we don't repeat the same two lines everywhere.
+
     private void SetButtons(bool on)
     {
-        createGameBtn.interactable = on;
+
+        createGameBtn.interactable = on;  //Prevents the buttons from being pressed before relay happens (not here but below).
         joinGameBtn.interactable = on;
     }
-
-    // ================= HOST =================
     async void CreateGame() //Only the host creates the relay
     {
         SetButtons(false);
 
-        try
-        {
             //Relays to 4 other users (not counting host)
             var allocation = await RelayService.Instance.CreateAllocationAsync(4);
 
             //Allocation id is one of the things needed inside GetJoinCode
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
 
-            // Make a public lobby and store the join code inside it
+            //Make a public lobby and store the join code inside it
             var options = new CreateLobbyOptions();
             options.IsPrivate = false;
             options.Data = new Dictionary<string, DataObject>
             {
-                { "JoinCode", new DataObject(DataObject.VisibilityOptions.Public, joinCode) }
+                { "JoinCode", new DataObject(DataObject.VisibilityOptions.Public, joinCode) } //allows client to read join code.
             };
-            hostLobby = await LobbyService.Instance.CreateLobbyAsync("Game", 5, options); // 5 = host + 4
+            hostLobby = await LobbyService.Instance.CreateLobbyAsync("Game", 5, options); //5 people including the host
+            InvokeRepeating(nameof(SendTicker), 15f, 15f); //Sends tick ever 15 seconds to allow people to join after some time period.
 
             //Need the Unity Transport for the relay (sending and receiving of network data)
             var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-            transport.SetRelayServerData(new RelayServerData(allocation, "dtls")); // must come BEFORE StartHost
+            transport.SetRelayServerData(new RelayServerData(allocation, "dtls")); //Both host a client will have dtls to make the data safe.
             NetworkManager.Singleton.StartHost();
 
             joinCodeText.text = "Join Code: " + joinCode;
             menuPanel.SetActive(false);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Create game failed: " + e.Message);
-            SetButtons(true);
-        }
+        
     }
 
-    // ================= CLIENT (player 2+) =================
     async void JoinGame()
     {
         SetButtons(false);
 
-        try
-        {
-            // Find any open lobby (replaces typing a code)
             Lobby found = await LobbyService.Instance.QuickJoinLobbyAsync();
+            //Look for a lobby
 
-            // Read the join code the host stored in the lobby
+
             string joinCode = found.Data["JoinCode"].Value;
+            //Reads the join code the host has
 
-            // Use the code to join the host's relay
+
             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+            //Use the code so that the client can join the host relay.
 
-            //Need the Unity Transport for the relay (sending and receiving of network data)
-            var transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
-            transport.SetRelayServerData(new RelayServerData(joinAllocation, "dtls")); // must come BEFORE StartClient
+            var transport = NetworkManager.Singleton.GetComponent<UnityTransport>(); //Need the Unity Transport for the relay (sending and receiving of network data)
+            transport.SetRelayServerData(new RelayServerData(joinAllocation, "dtls")); //The encription to keep players data safe.
             NetworkManager.Singleton.StartClient();
 
             menuPanel.SetActive(false);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("Join failed (is a host running?): " + e.Message);
-            SetButtons(true);
-        }
     }
 
-    // ================= KEEP THE LOBBY ALIVE =================
-    // Lobbies delete themselves after about 30 seconds of silence,
-    // so the host pings every 15 seconds.
-    private void Update()
+    private void SendTicker()
     {
-        if (hostLobby == null) return; // not a host, nothing to do
-
-        heartbeatTimer -= Time.deltaTime;
-        if (heartbeatTimer <= 0f)
-        {
-            heartbeatTimer = 15f;
-            LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
-        }
+        LobbyService.Instance.SendHeartbeatPingAsync(hostLobby.Id);
     }
 
-    // Delete the lobby when the host quits so nobody joins a dead game
-    private async void OnApplicationQuit()
-    {
-        if (hostLobby != null)
-        {
-            try { await LobbyService.Instance.DeleteLobbyAsync(hostLobby.Id); }
-            catch { }
-        }
-    }
 }
